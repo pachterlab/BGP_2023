@@ -7,8 +7,6 @@ usage () {
     -o, --output
     -g, --genome
     -m, --mmi
-    -x, --technology
-    -w, --whitelist
     -c, --cbfastq
     -1, --r1fastq
     -2, --r2fastq
@@ -16,7 +14,7 @@ usage () {
     exit 1
 }
 
-while getopts ":o:m:g:x:w:c:1:2:" opt; do
+while getopts ":o:m:g:c:1:2:" opt; do
     case $opt in
         o|--output)
             OUTPUT=$OPTARG
@@ -26,12 +24,6 @@ while getopts ":o:m:g:x:w:c:1:2:" opt; do
             ;;
         g|--genome)
             GENOME=$OPTARG
-            ;;
-        x|--technology)
-            TECH=$OPTARG
-            ;;
-        w|--whitelist)
-            WL=$OPTARG
             ;;
         c|--cbfastq)
             CBFQ=$OPTARG
@@ -59,19 +51,18 @@ done
 echo "Output: $OUTPUT"
 echo "Genome: $GENOME"
 echo "MMI: $MMI"
-echo "Technology: $TECH"
-echo "Whitelist: $WL"
 echo "CB fastq: $CBFQ"
 echo "R1 fastq: $R1FQ"
 echo "R2 fastq: $R2FQ"
 
 
 # check options        
-if [ -z "$OUTPUT" -o -z "$GENOME" -o -z "$MMI" -o -z "$TECH" -o -z "$WL" -o -z "$CBFQ" -o -z "$R1FQ" -o -z "$R2FQ" ]
+if [ -z "$OUTPUT" -o -z "$GENOME" -o -z "$MMI" -o -z "$CBFQ" -o -z "$R1FQ" -o -z "$R2FQ" ]
 then
     echo "Error"
     usage
 fi
+
 
 minimap2 -o genome.sam -a -x sr -t 32 $MMI $R1FQ $R2FQ
 
